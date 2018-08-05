@@ -11,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,9 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private List<String> mDatas;
     private HomeAdapter mAdapter;
+
+    boolean isSelect = true;
+    boolean isSelect1 = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +59,45 @@ public class HomeActivity extends AppCompatActivity {
         mAdapter.setOnItemClickLitener(new HomeAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(HomeActivity.this, position + " click",
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(HomeActivity.this, position + " click",
+//                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onItemLongClick(View view, int position) {
                 Toast.makeText(HomeActivity.this, position + " long click",
                         Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onItemClick(View itemView, int pos, String s) {
+                Toast.makeText(HomeActivity.this, "s = " + s, Toast.LENGTH_SHORT).show();
+//                mAdapter.changed(pos);
+            }
+
+            @Override
+            public void onItemClick(HomeAdapter.MyViewHolder myViewHolder, int pos, String s) {
+                if (pos < 4){
+//                    myViewHolder.imageView.setSelected(false);
+                    if (isSelect){
+                        isSelect = false;
+                        myViewHolder.imageView.setImageResource(R.drawable.btn_stop_normal);
+                    }else {
+                        isSelect = true;
+                        myViewHolder.imageView.setImageResource(R.drawable.btn_play_press);
+                    }
+                }else {
+                    if (isSelect1){
+                        isSelect1 = false;
+                        myViewHolder.imageView.setImageResource(R.drawable.btn_play_press);
+                    }else {
+                        isSelect1 = true;
+                        myViewHolder.imageView.setImageResource(R.drawable.btn_stop_normal);
+                    }
+//                    myViewHolder.imageView.setSelected(true);
+
+                }
+                Toast.makeText(HomeActivity.this, "s = " + s, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -83,6 +118,10 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.id_change:
+                Toast.makeText(this, "待开发", Toast.LENGTH_SHORT).show();
+//                mAdapter.notifyItemChanged(1);
+                break;
             case R.id.id_action_add:
                 mAdapter.addData(1);
                 break;

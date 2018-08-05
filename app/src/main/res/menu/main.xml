@@ -38,4 +38,10 @@
          android:title="StaggeredGridView"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/id_change"
+        android:orderInCategory="100"
+        android:title="改变状态?!"
+        app:showAsAction="never"/>
+
 </menu>
