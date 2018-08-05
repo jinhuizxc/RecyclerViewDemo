@@ -3,8 +3,10 @@ package com.example.jinhui.recyclerviewdemo;
 import java.util.List;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,14 +14,16 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
     private List<String> mDatas;
     private LayoutInflater mInflater;
 
-    MyViewHolder holder;
-    public static boolean isRecommend;
+    public Context context;
+    private int playPosition = -1;
+    private int selectPosition = -1;
 
     public interface OnItemClickLitener {
         void onItemClick(View view, int position);
@@ -39,6 +43,7 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
 
     public HomeAdapter(Context context, List<String> datas) {
+        this.context = context;
         mInflater = LayoutInflater.from(context);
         mDatas = datas;
     }
@@ -52,16 +57,16 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        this.holder = holder;
-        if (position < 4){
-            holder.tv.setText(mDatas.get(position));
+        holder.tv.setText(mDatas.get(position));
+
+        if (position < 4 && HomeActivity.isSelect){
             holder.imageView.setImageResource(R.drawable.btn_play_press);
-            isRecommend = true;
+            HomeActivity.isSelect = true;
         }else {
-            holder.tv.setText(mDatas.get(position));
             holder.imageView.setImageResource(R.drawable.btn_stop_normal);
         }
 
+        Log.e("测试局部刷新 = ", "测试局部刷新");
 
         // 如果设置了回调，则设置点击事件
         if (mOnItemClickLitener != null) {
@@ -71,6 +76,7 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
                     int pos = holder.getLayoutPosition();
 //                    mOnItemClickLitener.onItemClick(holder.itemView, pos);
 //                    mOnItemClickLitener.onItemClick(holder.itemView, pos, mDatas.get(position));
+
                     mOnItemClickLitener.onItemClick(holder, pos, mDatas.get(position));
                 }
             });
@@ -86,6 +92,7 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
             });
         }
     }
+
 
     @Override
     public int getItemCount() {

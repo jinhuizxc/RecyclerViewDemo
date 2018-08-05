@@ -30,8 +30,8 @@ public class HomeActivity extends AppCompatActivity {
     private List<String> mDatas;
     private HomeAdapter mAdapter;
 
-    boolean isSelect = true;
-    boolean isSelect1 = true;
+    public static boolean isSelect = true;
+    public static boolean isSelect1 = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +78,16 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(HomeAdapter.MyViewHolder myViewHolder, int pos, String s) {
                 if (pos < 4){
-//                    myViewHolder.imageView.setSelected(false);
                     if (isSelect){
                         isSelect = false;
                         myViewHolder.imageView.setImageResource(R.drawable.btn_stop_normal);
+//                        myViewHolder.imageView.setSelected(false);
+                        mAdapter.notifyItemChanged(pos);
                     }else {
                         isSelect = true;
                         myViewHolder.imageView.setImageResource(R.drawable.btn_play_press);
+//                        myViewHolder.imageView.setSelected(true);
+                        mAdapter.notifyItemChanged(pos);
                     }
                 }else {
                     if (isSelect1){
@@ -94,7 +97,6 @@ public class HomeActivity extends AppCompatActivity {
                         isSelect1 = true;
                         myViewHolder.imageView.setImageResource(R.drawable.btn_stop_normal);
                     }
-//                    myViewHolder.imageView.setSelected(true);
 
                 }
                 Toast.makeText(HomeActivity.this, "s = " + s, Toast.LENGTH_SHORT).show();
